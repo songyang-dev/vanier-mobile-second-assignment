@@ -31,30 +31,20 @@ class SummaryScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: ListView(
             children: [
               CareListTile(
-                  text: answers.sleep != null
-                      ? "Your sleep was ${answers.sleep!.toReadableString()}."
-                      : "Your sleep is unknown."),
+                  text: "Your sleep was ${answers.sleep.toReadableString()}."),
               CareListTile(
-                  text: answers.mood != null
-                      ? "Your mood was ${answers.mood!.toReadableString()}."
-                      : "Your mood is unknown."),
+                  text: "Your mood was ${answers.mood.toReadableString()}."),
               CareListTile(
-                  text: answers.exercise != null
-                      ? "You did ${answers.exercise!.toReadableString()} exercises."
-                      : "How much exercise did you do?"),
+                  text:
+                      "You did ${answers.exercise.toReadableString()} exercises."),
               CareListTile(
-                  text: answers.waterCups != null
-                      ? "You drank ${answers.waterCups?.toStringAsPrecision(2)} cups of water."
-                      : "Did you drink any water today?"),
+                  text:
+                      "You drank ${answers.waterCups.toStringAsPrecision(2)} cups of water."),
               CareListTile(text: _didSomethingNew(context)),
-              CareListTile(
-                  text: answers.notes != null
-                      ? "You noted down: ${answers.notes}"
-                      : "You left no notes."),
+              CareListTile(text: "You noted down: ${answers.notes}"),
             ],
           ),
         ),
