@@ -1,14 +1,24 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 import 'login/login.dart';
 import 'routes.dart';
+import 'services/daily.dart';
 import 'shared/shared.dart';
 
 void main() {
+  // For Firebase
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const WellnessApp());
+  runApp(
+    // Exposes/provides the data model as an initial state to the entire widget
+    // tree
+    Provider(
+      create: (_) => DailyQuestions(),
+      child: const WellnessApp(),
+    ),
+  );
 }
 
 class WellnessApp extends StatefulWidget {
@@ -43,6 +53,11 @@ class _WellnessAppState extends State<WellnessApp> {
           return MaterialApp(
             title: 'Daily Wellness',
             routes: routes,
+            theme: ThemeData(
+              textTheme: const TextTheme(
+                bodyMedium: TextStyle(fontSize: 18),
+              ),
+            ),
             home: const LoginScreen(),
           );
         }
