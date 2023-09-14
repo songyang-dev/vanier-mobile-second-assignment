@@ -54,6 +54,15 @@ class DailyQuestions extends ChangeNotifier {
     _notes = value;
     notifyListeners();
   }
+
+  void reset() {
+    sleep = Quality.average;
+    mood = Quality.average;
+    exercise = Quantity.none;
+    waterCups = 0;
+    didSomethingNew = false;
+    notes = "";
+  }
 }
 
 enum Quality { horrible, bad, average, good, excellent }

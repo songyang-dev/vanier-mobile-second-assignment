@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../login/login.dart';
 import '../services/authentication.dart';
+import '../services/daily.dart';
 import '../shared/shared.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -35,6 +37,8 @@ class ProfileScreen extends StatelessWidget {
                       onPressed: () async {
                         await Authentication().signOut();
                         if (!context.mounted) return;
+                        Provider.of<DailyQuestions>(context, listen: false)
+                            .reset();
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
                               builder: (context) => const LoginScreen(),
