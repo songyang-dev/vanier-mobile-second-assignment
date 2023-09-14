@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'firebase_options.dart';
 import 'login/login.dart';
+import 'routes.dart';
 import 'shared/shared.dart';
 
 void main() {
@@ -39,9 +40,10 @@ class _WellnessAppState extends State<WellnessApp> {
 
         // connected, go to the login screen
         if (snapshot.connectionState == ConnectionState.done) {
-          return const MaterialApp(
+          return MaterialApp(
             title: 'Daily Wellness',
-            home: LoginScreen(),
+            routes: routes,
+            home: const LoginScreen(),
           );
         }
 
