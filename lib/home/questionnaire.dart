@@ -20,17 +20,18 @@ class Questionnaire extends StatelessWidget {
         const SizedBox(height: 25),
         // sleep question
         const Text("Did you sleep well last night?"),
-        QualitySlider(
-          answerCatcher: (quality) => answers.sleep = quality,
+        const QualitySlider(
+          related: Question.sleep,
         ),
         const Text("How was your mood today?"),
-        QualitySlider(
-          answerCatcher: (quality) => answers.mood = quality,
+        const QualitySlider(
+          related: Question.mood,
         ),
         const Text("How much exercise did you do today?"),
         Padding(
           padding: const EdgeInsets.only(left: 24.0),
           child: QuantityDropdown(
+            initialQuantity: answers.exercise,
             quantityCatcher: (quantity) => answers.exercise = quantity,
           ),
         ),
@@ -41,9 +42,12 @@ class Questionnaire extends StatelessWidget {
         const Text("Personal notes"),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: TextField(
+          child: TextFormField(
+            initialValue: answers.notes,
             maxLines: 2,
-            decoration: const InputDecoration(border: OutlineInputBorder()),
+            decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                label: Text("What would you like to say?")),
             onChanged: (value) {
               answers.notes = value;
             },
@@ -54,33 +58,25 @@ class Questionnaire extends StatelessWidget {
   }
 }
 
-class WaterIntake extends StatefulWidget {
+class WaterIntake extends StatelessWidget {
   const WaterIntake({super.key});
 
   @override
-  State<WaterIntake> createState() => _WaterIntakeState();
-}
-
-class _WaterIntakeState extends State<WaterIntake> {
-  double _waterCups = 4;
-  @override
   Widget build(BuildContext context) {
     var answers = Provider.of<DailyQuestions>(context);
-    answers.waterCups = _waterCups;
+    var waterCups = answers.waterCups;
 
     return Row(
       children: [
         const Text("0"),
         Expanded(
           child: Slider(
-            value: _waterCups,
+            value: waterCups,
             min: 0,
             max: 8,
             onChanged: (value) {
-              setState(() {
-                _waterCups = value;
-                answers.waterCups = value;
-              });
+              waterCups = value;
+              answers.waterCups = value;
             },
           ),
         ),
@@ -90,30 +86,20 @@ class _WaterIntakeState extends State<WaterIntake> {
   }
 }
 
-class DoSomethingNew extends StatefulWidget {
+class DoSomethingNew extends StatelessWidget {
   const DoSomethingNew({super.key});
-
-  @override
-  State<DoSomethingNew> createState() => _DoSomethingNewState();
-}
-
-class _DoSomethingNewState extends State<DoSomethingNew> {
-  bool _didSomethingNew = false;
 
   @override
   Widget build(BuildContext context) {
     var answers = Provider.of<DailyQuestions>(context);
-    answers.didSomethingNew = _didSomethingNew;
+    var didSomethingNew = answers.didSomethingNew;
     return ListTile(
       leading: Checkbox(
-        value: _didSomethingNew,
-        onChanged: (value) {
-          setState(() {
-            _didSomethingNew = value!;
-            answers.didSomethingNew = _didSomethingNew;
-          });
-        },
-      ),
+          value: didSomethingNew,
+          onChanged: (value) {
+            didSomethingNew = value!;
+            answers.didSomethingNew = didSomethingNew;
+          }),
       title: const Text("Yes, I did something new."),
     );
   }

@@ -14,7 +14,7 @@ void main() {
   runApp(
     // Exposes/provides the data model as an initial state to the entire widget
     // tree
-    Provider(
+    ChangeNotifierProvider(
       create: (_) => DailyQuestions(),
       child: const WellnessApp(),
     ),

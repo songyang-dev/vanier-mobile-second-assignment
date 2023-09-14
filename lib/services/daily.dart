@@ -1,18 +1,58 @@
-class DailyQuestions {
-  Quality? sleep;
-  Quality? mood;
-  Quantity? exercise;
-  double? waterCups;
-  bool? didSomethingNew;
-  String? notes;
+import 'package:flutter/material.dart';
 
-  void nullify() {
-    sleep = null;
-    mood = null;
-    exercise = null;
-    waterCups = null;
-    didSomethingNew = null;
-    notes = null;
+class DailyQuestions extends ChangeNotifier {
+  Quality _sleep = Quality.average;
+
+  Quality get sleep => _sleep;
+
+  set sleep(Quality value) {
+    _sleep = value;
+    notifyListeners();
+  }
+
+  Quality _mood = Quality.average;
+
+  Quality get mood => _mood;
+
+  set mood(Quality value) {
+    _mood = value;
+    notifyListeners();
+  }
+
+  Quantity _exercise = Quantity.none;
+
+  Quantity get exercise => _exercise;
+
+  set exercise(Quantity value) {
+    _exercise = value;
+    notifyListeners();
+  }
+
+  double _waterCups = 0;
+
+  double get waterCups => _waterCups;
+
+  set waterCups(double value) {
+    _waterCups = value;
+    notifyListeners();
+  }
+
+  bool _didSomethingNew = false;
+
+  bool get didSomethingNew => _didSomethingNew;
+
+  set didSomethingNew(bool value) {
+    _didSomethingNew = value;
+    notifyListeners();
+  }
+
+  String _notes = "";
+
+  String get notes => _notes;
+
+  set notes(String value) {
+    _notes = value;
+    notifyListeners();
   }
 }
 
@@ -26,6 +66,18 @@ extension ReadableQuality on Quality {
       Quality.excellent => "Excellent",
       Quality.good => "Good",
       Quality.horrible => "Horrible",
+    };
+  }
+}
+
+extension QualityIndex on Quality {
+  double toIndex() {
+    return switch (this) {
+      Quality.horrible => 0,
+      Quality.bad => 1,
+      Quality.average => 2,
+      Quality.good => 3,
+      Quality.excellent => 4,
     };
   }
 }

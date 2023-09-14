@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
-import '../services/daily.dart';
 import '../shared/navigation_bar.dart';
 import 'questionnaire.dart';
 
@@ -11,8 +9,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<DailyQuestions>(context).nullify();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("My Daily Wellness"),

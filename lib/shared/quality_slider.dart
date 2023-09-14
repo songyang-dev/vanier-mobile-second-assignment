@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../services/daily.dart';
 
-class QualitySlider extends StatefulWidget {
-  const QualitySlider({super.key, required this.answerCatcher});
+enum Question { sleep, mood }
 
-  final void Function(Quality quality) answerCatcher;
+class QualitySlider extends StatelessWidget {
+  const QualitySlider({
+    super.key,
+    required this.related,
+  });
 
-  @override
-  State<QualitySlider> createState() => _QualitySliderState();
-}
-
-class _QualitySliderState extends State<QualitySlider> {
-  double _currentValue = 2;
+  final Question related;
 
   Quality _toQuality(double value) {
     return switch (value) {
@@ -26,19 +25,29 @@ class _QualitySliderState extends State<QualitySlider> {
 
   @override
   Widget build(BuildContext context) {
-    widget.answerCatcher(_toQuality(_currentValue));
+    var answer = Provider.of<DailyQuestions>(context);
+    var sliderValue = switch (related) {
+      Question.mood => answer.mood,
+      Question.sleep => answer.sleep,
+    }
+        .toIndex();
 
     return Slider(
-      value: _currentValue,
+      value: sliderValue,
       min: 0,
       max: 4,
       divisions: 4,
-      label: _toQuality(_currentValue).toReadableString(),
+      label: _toQuality(sliderValue).toReadableString(),
       onChanged: (value) {
-        setState(() {
-          _currentValue = value;
-          widget.answerCatcher(_toQuality(value));
-        });
+        switch (related) {
+          case Question.mood:
+            answer.mood = _toQuality(value);
+            break;
+          case Question.sleep:
+            answer.sleep = _toQuality(value);
+            break;
+        }
+        ;
       },
     );
   }
