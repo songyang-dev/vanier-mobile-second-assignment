@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../services/daily.dart';
@@ -6,6 +7,17 @@ import '../shared/shared.dart';
 
 class SummaryScreen extends StatelessWidget {
   const SummaryScreen({super.key});
+
+  String _didSomethingNew(BuildContext context) {
+    var answers = Provider.of<DailyQuestions>(context);
+    if (answers.didSomethingNew == true) {
+      return "You did something new!";
+    } else if (answers.didSomethingNew == false) {
+      return "You didn't do something new.";
+    } else {
+      return "Did you do something new?";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,41 +32,50 @@ class SummaryScreen extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Center(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (answers.sleep != null)
-                Text("Your sleep was ${answers.sleep!.toReadableString()}.")
-              else
-                const Text("Your sleep is unknown."),
-              if (answers.mood != null)
-                Text("Your mood was ${answers.mood!.toReadableString()}.")
-              else
-                const Text("Your mood is unknown."),
-              if (answers.exercise != null)
-                Text(
-                    "You did ${answers.exercise!.toReadableString()} exercises.")
-              else
-                const Text("How much exercise did you do?"),
-              if (answers.waterCups != null)
-                Text(
-                    "You drank ${answers.waterCups?.toStringAsPrecision(2)} cups of water.")
-              else
-                const Text("Did you drink any water today?"),
-              if (answers.didSomethingNew == true)
-                const Text("You did something new!")
-              else if (answers.didSomethingNew == false)
-                const Text("You didn't do something new.")
-              else
-                const Text("Did you do something new?"),
-              if (answers.notes != null)
-                Text("You noted down: ${answers.notes}")
-              else
-                const Text("There was no notes left."),
+              CareListTile(
+                  text: answers.sleep != null
+                      ? "Your sleep was ${answers.sleep!.toReadableString()}."
+                      : "Your sleep is unknown."),
+              CareListTile(
+                  text: answers.mood != null
+                      ? "Your mood was ${answers.mood!.toReadableString()}."
+                      : "Your mood is unknown."),
+              CareListTile(
+                  text: answers.exercise != null
+                      ? "You did ${answers.exercise!.toReadableString()} exercises."
+                      : "How much exercise did you do?"),
+              CareListTile(
+                  text: answers.waterCups != null
+                      ? "You drank ${answers.waterCups?.toStringAsPrecision(2)} cups of water."
+                      : "Did you drink any water today?"),
+              CareListTile(text: _didSomethingNew(context)),
+              CareListTile(
+                  text: answers.notes != null
+                      ? "You noted down: ${answers.notes}"
+                      : "You left no notes."),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class CareListTile extends StatelessWidget {
+  const CareListTile({
+    super.key,
+    required this.text,
+  });
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: const Icon(FontAwesomeIcons.handHoldingHeart),
+      title: Text(text),
     );
   }
 }
